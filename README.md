@@ -11,11 +11,10 @@ where $HyperModuleName will later automatically changed to your inputted Module 
 
 Template files have these variables :
 
-$HyperModuleName
-$HyperAuthorName
-$HyperAuthorOrganization
-$HyperCreatedYear
-$HyperCreatedDate
+- $HyperModuleName
+- $HyperAuthorOrganization
+- $HyperCreatedYear
+- $HyperCreatedDate
 
 TO DO :
 - Add feature to change default Author Name and Organization
