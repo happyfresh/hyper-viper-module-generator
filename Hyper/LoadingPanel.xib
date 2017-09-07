@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="LoadingPanel">
+            <connections>
+                <outlet property="customContentView" destination="c22-O7-iKe" id="eXb-Ny-2tN"/>
+                <outlet property="loadingLabel" destination="Rj2-mF-vTU" id="0JL-E1-oyo"/>
+                <outlet property="progressBar" destination="UCH-4A-oai" id="Huq-Vv-trV"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="203" height="46"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rj2-mF-vTU">
+                    <rect key="frame" x="18" y="14" width="142" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Generating Template..." id="B59-fn-ML0">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="UCH-4A-oai">
+                    <rect key="frame" x="167" y="14" width="16" height="16"/>
+                </progressIndicator>
+            </subviews>
+            <constraints>
+                <constraint firstItem="UCH-4A-oai" firstAttribute="centerY" secondItem="Rj2-mF-vTU" secondAttribute="centerY" id="0aT-XO-5wN"/>
+                <constraint firstItem="Rj2-mF-vTU" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="AAN-fr-Peg"/>
+                <constraint firstAttribute="trailing" secondItem="UCH-4A-oai" secondAttribute="trailing" constant="20" id="WyE-aY-Auh"/>
+                <constraint firstItem="Rj2-mF-vTU" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="aia-Yv-z4y"/>
+            </constraints>
+            <point key="canvasLocation" x="51.5" y="49"/>
+        </customView>
+    </objects>
+</document>
