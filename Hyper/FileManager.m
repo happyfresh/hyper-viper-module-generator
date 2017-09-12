@@ -50,7 +50,13 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
     BOOL isDir;
     NSFileManager *fileManager= [NSFileManager defaultManager];
     if (overwrite) {
-        if ([fileManager removeItemAtPath:path error:NULL]) {
+        if([fileManager fileExistsAtPath:path isDirectory:&isDir]) {
+            if ([fileManager removeItemAtPath:path error:NULL]) {
+                if(![fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
+                    return NO;
+                }
+            }
+        } else {
             if(![fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
                 return NO;
             }
