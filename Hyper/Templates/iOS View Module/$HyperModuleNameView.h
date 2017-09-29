@@ -11,6 +11,6 @@
 
 @interface $HyperModuleNameView : BaseView <$HyperModuleNameViewBehavior>
 
-//+ ($HyperModuleNameView *)createInstance;
++ ($HyperModuleNameView *)createInstance;
 
 @end

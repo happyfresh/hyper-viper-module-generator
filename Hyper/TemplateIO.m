@@ -79,7 +79,7 @@ NSString *const CreatedYearConstant = @"$HyperCreatedYear";
 - (void)write:(NSString *)content toFileWithURL:(NSURL *)saveTarget {
     NSError *error;
     BOOL ok = [content writeToURL:saveTarget atomically:YES
-                        encoding:NSUnicodeStringEncoding error:&error];
+                        encoding:NSUTF8StringEncoding error:&error];
     if (!ok) {
         // an error occurred
         NSLog(@"Error writing file at %@\n%@",
