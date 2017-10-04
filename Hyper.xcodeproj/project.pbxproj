@@ -19,6 +19,8 @@
 		6342BB7A1F601F69004D0322 /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6342BB791F601F69004D0322 /* NSUserDefaults+Additions.m */; };
 		6342BBB01F602A5C004D0322 /* LoadingPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6342BBAF1F602A5C004D0322 /* LoadingPanel.xib */; };
 		6342BBB31F602C51004D0322 /* LoadingPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6342BBB21F602C51004D0322 /* LoadingPanel.m */; };
+		639CE98F1F8539F200E9314F /* AuthorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639CE98D1F8539F200E9314F /* AuthorViewController.m */; };
+		639CE9901F8539F200E9314F /* AuthorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 639CE98E1F8539F200E9314F /* AuthorViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,17 @@
 		6342BBAF1F602A5C004D0322 /* LoadingPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingPanel.xib; sourceTree = "<group>"; };
 		6342BBB11F602C51004D0322 /* LoadingPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingPanel.h; sourceTree = "<group>"; };
 		6342BBB21F602C51004D0322 /* LoadingPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingPanel.m; sourceTree = "<group>"; };
+		639CE98C1F8539F200E9314F /* AuthorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthorViewController.h; sourceTree = "<group>"; };
+		639CE98D1F8539F200E9314F /* AuthorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthorViewController.m; sourceTree = "<group>"; };
+		639CE98E1F8539F200E9314F /* AuthorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthorViewController.xib; sourceTree = "<group>"; };
+		639CE9951F8550DE00E9314F /* ProductDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductDatabase.h; sourceTree = "<group>"; };
+		639CE9961F8550DE00E9314F /* ProductDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductDatabase.m; sourceTree = "<group>"; };
+		639CE9971F8550DE00E9314F /* ProductService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductService.h; sourceTree = "<group>"; };
+		639CE9981F8550DE00E9314F /* ProductService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductService.m; sourceTree = "<group>"; };
+		639CE9991F8550DE00E9314F /* ProductStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductStorage.h; sourceTree = "<group>"; };
+		639CE99A1F8550DE00E9314F /* ProductStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductStorage.m; sourceTree = "<group>"; };
+		639CE99B1F8550DE00E9314F /* ProductUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductUserDefaults.h; sourceTree = "<group>"; };
+		639CE99C1F8550DE00E9314F /* ProductUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductUserDefaults.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,9 +88,12 @@
 		633824ED1F4748FE00DBBE2D /* Hyper */ = {
 			isa = PBXGroup;
 			children = (
-				6342BB7B1F60244E004D0322 /* Tes */,
+				639CE9941F8550DE00E9314F /* Product */,
 				633824EE1F4748FE00DBBE2D /* AppDelegate.h */,
 				633824EF1F4748FE00DBBE2D /* AppDelegate.m */,
+				639CE98C1F8539F200E9314F /* AuthorViewController.h */,
+				639CE98D1F8539F200E9314F /* AuthorViewController.m */,
+				639CE98E1F8539F200E9314F /* AuthorViewController.xib */,
 				633824F41F4748FE00DBBE2D /* MainViewController.h */,
 				633824F51F4748FE00DBBE2D /* MainViewController.m */,
 				633824F71F4748FE00DBBE2D /* Assets.xcassets */,
@@ -124,11 +140,19 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
-		6342BB7B1F60244E004D0322 /* Tes */ = {
+		639CE9941F8550DE00E9314F /* Product */ = {
 			isa = PBXGroup;
 			children = (
+				639CE9951F8550DE00E9314F /* ProductDatabase.h */,
+				639CE9961F8550DE00E9314F /* ProductDatabase.m */,
+				639CE9971F8550DE00E9314F /* ProductService.h */,
+				639CE9981F8550DE00E9314F /* ProductService.m */,
+				639CE9991F8550DE00E9314F /* ProductStorage.h */,
+				639CE99A1F8550DE00E9314F /* ProductStorage.m */,
+				639CE99B1F8550DE00E9314F /* ProductUserDefaults.h */,
+				639CE99C1F8550DE00E9314F /* ProductUserDefaults.m */,
 			);
-			name = Tes;
+			path = Product;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				639CE9901F8539F200E9314F /* AuthorViewController.xib in Resources */,
 				6342BB6E1F5FB210004D0322 /* Templates in Resources */,
 				6342BBB01F602A5C004D0322 /* LoadingPanel.xib in Resources */,
 				633824F81F4748FE00DBBE2D /* Assets.xcassets in Resources */,
@@ -207,6 +232,7 @@
 				6342BB7A1F601F69004D0322 /* NSUserDefaults+Additions.m in Sources */,
 				6342BB761F601DBA004D0322 /* AppSettingsManager.m in Sources */,
 				633824F61F4748FE00DBBE2D /* MainViewController.m in Sources */,
+				639CE98F1F8539F200E9314F /* AuthorViewController.m in Sources */,
 				633824F31F4748FE00DBBE2D /* main.m in Sources */,
 				6342BBB31F602C51004D0322 /* LoadingPanel.m in Sources */,
 				6342BB711F5FC900004D0322 /* TemplateIO.m in Sources */,
@@ -322,12 +348,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = KE9JY7KHDA;
 				INFOPLIST_FILE = Hyper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happyfresh.Hyper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -335,12 +364,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = KE9JY7KHDA;
 				INFOPLIST_FILE = Hyper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happyfresh.Hyper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-//@class $HyperModuleNameStorage, $HyperModuleName, $HyperModuleNameModel;
+@class $HyperModuleNameStorage;
+//@class $HyperModuleNameModel;
 
 @interface $HyperModuleNameService : NSObject
 
