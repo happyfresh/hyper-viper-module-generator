@@ -16,5 +16,4 @@ Template files have these variables :
 - $HyperCreatedYear
 - $HyperCreatedDate
 
-TO DO :
-- Add feature to change default Author Name and Organization
+Download executable MacApp here : https://drive.google.com/drive/folders/0B2WHpUjs4HI4NG9WaWFhQVFFQjQ?usp=sharing
