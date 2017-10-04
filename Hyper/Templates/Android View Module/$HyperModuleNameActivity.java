@@ -1,5 +1,7 @@
 package com.happyfresh.modules.$HyperModuleName;
 
+import android.os.Bundle;
+
 import com.happyfresh.abstracts.BaseActivity;
 import com.happyfresh.abstracts.BasePresenter;
 
