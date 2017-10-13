@@ -36,7 +36,7 @@ NSString *const CreatedYearConstant = @"$HyperCreatedYear";
 
 - (AppSettingsManager *)settingsManager {
     if (_settingsManager == nil) {
-        _settingsManager = [AppSettingsManager new];
+        _settingsManager = [AppSettingsManager sharedInstance];
     }
     return _settingsManager;
 }
@@ -72,6 +72,45 @@ NSString *const CreatedYearConstant = @"$HyperCreatedYear";
             
             fileName = [fileName stringByReplacingOccurrencesOfString:@"$HyperModuleName" withString:moduleName];
             [self write:templateContent toFileWithURL:[dir URLByAppendingPathComponent:fileName]];
+        }
+    }
+}
+
+- (void)readFileFromTemplate:(NSString *)templateName selectedFiles:(NSArray *)selectedFiles thenWriteItToDirectory:(NSURL *)dir withModuleName:(NSString *)moduleName createPhysicalFolder:(BOOL)createFolder {
+    
+    if (createFolder) {
+        dir = [dir URLByAppendingPathComponent:moduleName];
+        [self.fileManager createFolderAtPath:dir.path overWrite:YES];
+    }
+    
+    
+    NSURL *url = [self.fileManager.templateDir URLByAppendingPathComponent:templateName];
+    NSArray *templateFiles = [self.fileManager readContentOfDirectoryWithURL:url];
+    
+    for (NSURL *url in templateFiles) {
+        NSError *error;
+        NSString *templateContent = [[NSString alloc]
+                                     initWithContentsOfURL:url
+                                     encoding:NSUTF8StringEncoding
+                                     error:&error];
+        
+        if (templateContent == nil) {
+            // an error occurred
+            NSLog(@"Error reading file at %@\n%@",
+                  url, [error localizedFailureReason]);
+            // implementation continues ...
+            [[NSNotificationCenter defaultCenter] postNotificationName:GeneratingFailedNotification object:[error localizedDescription]];
+        } else {
+            templateContent = [self parseTemplate:templateContent];
+            NSDictionary *urlDictionary = [url resourceValuesForKeys:@[NSURLLocalizedNameKey] error:nil];
+            NSString *fileName = urlDictionary[@"NSURLLocalizedNameKey"];
+            
+            fileName = [fileName stringByReplacingOccurrencesOfString:@"$HyperModuleName" withString:moduleName];
+            
+            NSString *fileNameWithoutExtension = [[fileName componentsSeparatedByString:@"."] firstObject];
+            if ([selectedFiles containsObject:fileNameWithoutExtension]) {
+                [self write:templateContent toFileWithURL:[dir URLByAppendingPathComponent:fileName]];
+            }
         }
     }
 }

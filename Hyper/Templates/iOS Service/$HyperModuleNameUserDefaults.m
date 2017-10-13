@@ -6,8 +6,7 @@
 //  Copyright © $HyperCreatedYear $HyperAuthorOrganization. All rights reserved.
 //
 
-#import "$HyperModuleName$HyperModuleNameDefaults.h"
-#import "NS$HyperModuleNameDefaults+Additions.h"
+#import "$HyperModuleNameUserDefaults.h"
 
 @implementation $HyperModuleNameUsereDefaults
 

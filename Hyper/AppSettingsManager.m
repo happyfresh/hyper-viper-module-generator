@@ -18,6 +18,17 @@ NSString * const GeneratingFailedNotification = @"GeneratingFailedNotification";
 @synthesize authorName = _authorName;
 @synthesize authorOrganization = _authorOrganization;
 
++ (instancetype)sharedInstance {
+    static id sharedInstance = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[AppSettingsManager alloc] init];
+    });
+    
+    return sharedInstance;
+}
+
 - (void)setModuleName:(NSString *)moduleName {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setOrRemoveObject:moduleName forKey:@"moduleName" synchronize:YES];

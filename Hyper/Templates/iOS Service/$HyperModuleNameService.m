@@ -9,8 +9,8 @@
 #import "$HyperModuleNameService.h"
 #import "$HyperModuleNameStorage.h"
 //#import "$HyperModuleName+CoreDataClass.h"
-#import "$HyperModuleNameModel.h"
-#import "$HyperModuleNameManagedTransformer.h"
+//#import "$HyperModuleNameModel.h"
+//#import "$HyperModuleNameManagedTransformer.h"
 
 @implementation $HyperModuleNameService
 

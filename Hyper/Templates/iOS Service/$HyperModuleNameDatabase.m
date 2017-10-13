@@ -6,7 +6,7 @@
 //  Copyright © $HyperCreatedYear $HyperAuthorOrganization. All rights reserved.
 //
 #import "$HyperModuleNameDatabase.h"
-#import "$HyperModuleNameModel.h"
+//#import "$HyperModuleNameModel.h"
 //#import "$HyperModuleName+CoreDataClass.h"
 //#import <MagicalRecord/MagicalRecord.h>
 

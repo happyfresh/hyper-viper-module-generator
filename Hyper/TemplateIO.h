@@ -10,6 +10,8 @@
 
 @interface TemplateIO : NSObject
 
-- (void)readFileFromTemplate:(NSString *)templateName thenWriteItToDirectory:(NSURL *)dir withModuleName:(NSString *)moduleName createPhysicalFolder:(BOOL)createFolder;
+//- (void)readFileFromTemplate:(NSString *)templateName thenWriteItToDirectory:(NSURL *)dir withModuleName:(NSString *)moduleName createPhysicalFolder:(BOOL)createFolder;
+
+- (void)readFileFromTemplate:(NSString *)templateName selectedFiles:(NSArray *)selectedFiles thenWriteItToDirectory:(NSURL *)dir withModuleName:(NSString *)moduleName createPhysicalFolder:(BOOL)createFolder;
 
 @end

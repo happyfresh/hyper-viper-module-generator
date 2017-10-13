@@ -17,4 +17,6 @@ extern NSString * const GeneratingFailedNotification;
 @property (nonatomic, copy) NSString *authorName;
 @property (nonatomic, copy) NSString *authorOrganization;
 
++ (instancetype)sharedInstance;
+
 @end

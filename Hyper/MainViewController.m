@@ -11,8 +11,9 @@
 #import "TemplateIO.h"
 #import "AppSettingsManager.h"
 #import "LoadingPanel.h"
+#import "AuthorViewController.h"
 
-@interface MainViewController ()
+@interface MainViewController () <NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 
 @property (nonatomic) NSURL *targetURL;
 
@@ -26,6 +27,9 @@
 @property (nonatomic) FileManager *fileManager;
 @property (nonatomic) AppSettingsManager *settingsManager;
 @property (nonatomic) NSPanel *loadingPanel;
+@property (weak) IBOutlet NSTableView *tableView;
+@property (nonatomic) NSMutableArray *templateFilesArray;
+@property (nonatomic) NSMutableArray *selectedTemplateFilesArray;
 
 @end
 
@@ -61,11 +65,26 @@
     return _loadingPanel;
 }
 
+- (NSMutableArray *)templateFilesArray {
+    if (_templateFilesArray == nil) {
+        _templateFilesArray = [NSMutableArray new];
+    }
+    return _templateFilesArray;
+}
+
+- (NSMutableArray *)selectedTemplateFilesArray {
+    if (_selectedTemplateFilesArray == nil) {
+        _selectedTemplateFilesArray = [NSMutableArray new];
+    }
+    return _selectedTemplateFilesArray;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.fileManager createTemplatesFolder];
     [self setupView];
     [self addObserver];
+    [self getModuleFiles:[self.templateDropDown titleOfSelectedItem]];
 }
 
 - (void)setupView {
@@ -85,13 +104,14 @@
 - (IBAction)generateButtonTapped:(id)sender {
     NSString *selectedTemplate = self.templateDropDown.titleOfSelectedItem;
     NSString *moduleName = self.nameTextField.stringValue;
-    if (!moduleName || !self.targetURL || ![self.templateDropDown titleOfSelectedItem]) {
+    if (!moduleName || !self.targetURL || ![self.templateDropDown titleOfSelectedItem] || self.selectedTemplateFilesArray.count == 0) {
+        NSBeep();
         return;
     }
     
     [self.settingsManager setModuleName:moduleName];
     [self showLoadingPanel];
-    [self.templateIO readFileFromTemplate:selectedTemplate thenWriteItToDirectory:self.targetURL withModuleName:moduleName createPhysicalFolder:[self.createFolderCheckBox state]];
+    [self.templateIO readFileFromTemplate:selectedTemplate selectedFiles:self.selectedTemplateFilesArray thenWriteItToDirectory:self.targetURL withModuleName:moduleName createPhysicalFolder:[self.createFolderCheckBox state]];
 }
 
 - (IBAction)resetButtonTapped:(id)sender {
@@ -99,6 +119,9 @@
     self.nameTextField.stringValue = @"";
     self.saveToTextField.stringValue = @"";
     [self.settingsManager setModuleName:nil];
+    [self.templateFilesArray removeAllObjects];
+    [self.selectedTemplateFilesArray removeAllObjects];
+    [self getModuleFiles:[self.templateDropDown titleOfSelectedItem]];
 }
 
 - (IBAction)browseButtonTapped:(id)sender {
@@ -118,6 +141,19 @@
     }
 }
 
+- (IBAction)authorButtonTapped:(NSButton *)sender {
+    NSViewController* vc = [[AuthorViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewControllerAsSheet:vc];
+}
+
+- (IBAction)templateDropdownDidChangeValue:(id)sender {
+    [self.templateFilesArray removeAllObjects];
+    [self.selectedTemplateFilesArray removeAllObjects];
+    NSString *selectedModuleName = [(NSPopUpButton *) sender titleOfSelectedItem];
+    NSLog(@"My NSPopupButton selected value is: %@", [(NSPopUpButton *) sender titleOfSelectedItem]);
+    [self getModuleFiles:selectedModuleName];
+}
+
 - (void)showLoadingPanel {
     [[NSApplication sharedApplication].mainWindow beginSheet:self.loadingPanel completionHandler:^(NSModalResponse returnCode) {
         
@@ -126,6 +162,63 @@
 
 - (void)hideLoadingPanel {
     [[NSApplication sharedApplication].mainWindow endSheet:self.loadingPanel];
+}
+
+- (void)getModuleFiles:(NSString *)moduleName {
+    NSURL *url = [self.fileManager.templateDir URLByAppendingPathComponent:moduleName];
+    NSArray *templateFiles = [self.fileManager readContentOfDirectoryWithURL:url];
+    for (NSURL *url in templateFiles) {
+        NSDictionary *urlDictionary = [url resourceValuesForKeys:@[NSURLLocalizedNameKey] error:nil];
+        NSString *fileName = urlDictionary[@"NSURLLocalizedNameKey"];
+        
+        fileName = [fileName stringByReplacingOccurrencesOfString:@"$HyperModuleName" withString:self.nameTextField.stringValue];
+        fileName = [[fileName componentsSeparatedByString:@"."] firstObject];
+        if (![self.templateFilesArray containsObject:fileName]) {
+            [self.templateFilesArray addObject:fileName];
+            [self.selectedTemplateFilesArray addObject:fileName];
+        }
+    }
+    [self.tableView reloadData];
+}
+
+#pragma mark - Textfield
+
+- (void)controlTextDidChange:(NSNotification *)obj {
+    [self.templateFilesArray removeAllObjects];
+    [self.selectedTemplateFilesArray removeAllObjects];
+    [self getModuleFiles:[self.templateDropDown titleOfSelectedItem]];
+}
+#pragma mark - TableView
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return self.templateFilesArray.count;
+}
+
+- (NSView *)tableView:(NSTableView *)tableView
+   viewForTableColumn:(NSTableColumn *)tableColumn
+                  row:(NSInteger)row {
+    
+    // Retrieve to get the @"MyView" from the pool or,
+    // if no version is available in the pool, load the Interface Builder version
+    NSTableCellView *result = [tableView makeViewWithIdentifier:@"MyView" owner:self];
+    
+    // Set the stringValue of the cell's text field to the nameArray value at row
+    result.textField.stringValue = [self.templateFilesArray objectAtIndex:row];
+    NSImageView *checkedImage = [result viewWithTag:10];
+    checkedImage.hidden = ![self.selectedTemplateFilesArray containsObject:self.templateFilesArray[row]];
+    
+    // Return the result
+    return result;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
+    NSString *selectedFile = self.templateFilesArray[self.tableView.selectedRow];
+    if ([self.selectedTemplateFilesArray containsObject:selectedFile]) {
+        [self.selectedTemplateFilesArray removeObject:selectedFile];
+    } else {
+        [self.selectedTemplateFilesArray addObject:selectedFile];
+    }
+    [self.tableView reloadData];
 }
 
 @end
