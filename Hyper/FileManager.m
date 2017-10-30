@@ -11,6 +11,11 @@
 NSString * const CreateDocumentsFolderSuccess = @"CreateDocumentsFolderSuccess";
 NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
 
+@interface FileManager()
+@property (nonatomic) NSString *selectedPlatform;
+@property (nonatomic) NSString *selectedStyle;
+@property (nonatomic) NSString *dir;
+@end
 
 @implementation FileManager
 
@@ -25,15 +30,15 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
     return sharedInstance;
 }
 
-
 - (instancetype)init {
-    if (self = [super init]) {
-        [self commonInit];
-    }
     return self;
 }
 
-- (void)commonInit {
+- (void)setSelectedPlatform:(NSString *)selectedPlatform {
+    _dir = @"Templates/";
+    _selectedPlatform = selectedPlatform;
+    _dir = [_dir stringByAppendingString:_selectedPlatform];
+    
     NSArray* theDirs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
                                                               inDomains:NSUserDomainMask];
     if ([theDirs count] > 0)
@@ -42,9 +47,26 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         NSString *bundleName = [NSString stringWithFormat:@"%@", [info objectForKey:@"CFBundleName"]];
         self.templateDir = [[documentDir URLByAppendingPathComponent:bundleName]
-                            URLByAppendingPathComponent:@"Templates"];
+                            URLByAppendingPathComponent:_dir];
     }
 }
+
+-(void)setSelectedStyle:(NSString *)selectedStyle {
+    _selectedStyle = selectedStyle;
+    _dir = [[_dir stringByAppendingString:@"/" ] stringByAppendingString:_selectedStyle];
+    
+    NSArray* theDirs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                              inDomains:NSUserDomainMask];
+    if ([theDirs count] > 0)
+    {
+        NSURL* documentDir = (NSURL*)[theDirs objectAtIndex:0];
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        NSString *bundleName = [NSString stringWithFormat:@"%@", [info objectForKey:@"CFBundleName"]];
+        self.templateDir = [[documentDir URLByAppendingPathComponent:bundleName]
+                            URLByAppendingPathComponent:_dir];
+    }
+}
+
 
 - (BOOL)createFolderAtPath:(NSString *)path overWrite:(BOOL)overwrite {
     BOOL isDir;
@@ -125,6 +147,16 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
 
 - (NSArray *)readTemplatesDir {
     return [self readContentOfDirectoryWithURL:self.templateDir];
+}
+
+- (NSArray *)styleNames {
+    NSArray *urlArray = [self readTemplatesDir];
+    NSMutableArray *nameArray = [NSMutableArray new];
+    for (NSURL *url in urlArray) {
+        NSDictionary *dict = [url resourceValuesForKeys:@[NSURLLocalizedNameKey] error:nil];
+        [nameArray addObject:dict[@"NSURLLocalizedNameKey"]];
+    }
+    return nameArray;
 }
 
 - (NSArray *)templateNames {

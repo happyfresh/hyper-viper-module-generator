@@ -18,6 +18,8 @@
 @property (nonatomic) NSURL *targetURL;
 
 @property (weak) IBOutlet NSTextField *nameTextField;
+@property (weak) IBOutlet NSPopUpButton *platformDropDown;
+@property (weak) IBOutlet NSPopUpButton *styleDropDown;
 @property (weak) IBOutlet NSPopUpButton *templateDropDown;
 @property (weak) IBOutlet NSButton *createFolderCheckBox;
 @property (weak) IBOutlet NSTextField *saveToTextField;
@@ -30,6 +32,8 @@
 @property (weak) IBOutlet NSTableView *tableView;
 @property (nonatomic) NSMutableArray *templateFilesArray;
 @property (nonatomic) NSMutableArray *selectedTemplateFilesArray;
+@property (nonatomic) NSString *selectedPlatform;
+@property (nonatomic) NSString *selectedStyle;
 
 @end
 
@@ -84,10 +88,23 @@
     [self.fileManager createTemplatesFolder];
     [self setupView];
     [self addObserver];
-    [self getModuleFiles:[self.templateDropDown titleOfSelectedItem]];
 }
 
 - (void)setupView {
+    NSArray *platformArray = [NSArray arrayWithObjects: @"Android", @"iOS", nil];
+    [self.styleDropDown setEnabled:NO];
+    [self.templateDropDown setEnabled:NO];
+    [self.platformDropDown addItemsWithTitles:platformArray];
+}
+
+-(void)setupStyleDropdown {
+    [self.fileManager setSelectedPlatform:_selectedPlatform];
+    NSArray *titleArray = [self.fileManager styleNames];
+    [self.styleDropDown addItemsWithTitles: titleArray];
+}
+
+- (void)setupModuleDropdown {
+    [self.fileManager setSelectedStyle:_selectedStyle];
     NSArray *titleArray = [self.fileManager templateNames];
     [self.templateDropDown addItemsWithTitles: titleArray];
 }
@@ -144,6 +161,18 @@
 - (IBAction)authorButtonTapped:(NSButton *)sender {
     NSViewController* vc = [[AuthorViewController alloc] initWithNibName:nil bundle:nil];
     [self presentViewControllerAsSheet:vc];
+}
+
+- (IBAction)platformDropdownDidChangeValue:(id)sender {
+    _selectedPlatform = [(NSPopUpButton *) sender titleOfSelectedItem];
+    [self.styleDropDown setEnabled:YES];
+    [self setupStyleDropdown];
+}
+
+- (IBAction)styleDropdownDidChangeValue:(id)sender {
+    _selectedStyle = [(NSPopUpButton *) sender titleOfSelectedItem];
+    [self.templateDropDown setEnabled:YES];
+    [self setupModuleDropdown];
 }
 
 - (IBAction)templateDropdownDidChangeValue:(id)sender {
