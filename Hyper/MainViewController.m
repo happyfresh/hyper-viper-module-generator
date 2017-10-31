@@ -91,7 +91,7 @@
 }
 
 - (void)setupView {
-    NSArray *platformArray = [NSArray arrayWithObjects: @"Android", @"iOS", nil];
+    NSArray *platformArray = [NSArray arrayWithObjects: @"--Select Platform--", @"Android", @"iOS", nil];
     [self.styleDropDown setEnabled:NO];
     [self.templateDropDown setEnabled:NO];
     [self.platformDropDown addItemsWithTitles:platformArray];
@@ -100,12 +100,14 @@
 -(void)setupStyleDropdown {
     [self.fileManager setSelectedPlatform:_selectedPlatform];
     NSArray *titleArray = [self.fileManager styleNames];
+    [self.styleDropDown addItemWithTitle:@"--Select Style--"];
     [self.styleDropDown addItemsWithTitles: titleArray];
 }
 
 - (void)setupModuleDropdown {
     [self.fileManager setSelectedStyle:_selectedStyle];
     NSArray *titleArray = [self.fileManager templateNames];
+    [self.templateDropDown addItemWithTitle:@"--Select Template--"];
     [self.templateDropDown addItemsWithTitles: titleArray];
 }
 
@@ -165,22 +167,46 @@
 
 - (IBAction)platformDropdownDidChangeValue:(id)sender {
     _selectedPlatform = [(NSPopUpButton *) sender titleOfSelectedItem];
-    [self.styleDropDown setEnabled:YES];
-    [self setupStyleDropdown];
+    if (![_selectedPlatform isEqualToString:@"--Select Platform--"]) {
+        NSString *firstItem = [[self.platformDropDown itemAtIndex:0] title];
+        if ([firstItem isEqualToString:@"--Select Platform--"]) {
+            [self.platformDropDown removeItemAtIndex:0];
+        }
+        [self.styleDropDown setEnabled:YES];
+        [self.templateDropDown setEnabled:NO];
+        [self setupStyleDropdown];
+    }
 }
 
 - (IBAction)styleDropdownDidChangeValue:(id)sender {
     _selectedStyle = [(NSPopUpButton *) sender titleOfSelectedItem];
-    [self.templateDropDown setEnabled:YES];
-    [self setupModuleDropdown];
+    NSString *firstItem = [[self.styleDropDown itemAtIndex:0] title];
+
+    if (![_selectedStyle isEqualToString:@"--Select Template--"]) {
+        if ([firstItem isEqualToString:@"--Select Template--"]) {
+            [self.styleDropDown removeItemAtIndex:0];
+        }
+        
+        [self.templateDropDown setEnabled:YES];
+        [self.templateDropDown removeAllItems];
+        [self setupModuleDropdown];
+    }
 }
 
 - (IBAction)templateDropdownDidChangeValue:(id)sender {
-    [self.templateFilesArray removeAllObjects];
-    [self.selectedTemplateFilesArray removeAllObjects];
-    NSString *selectedModuleName = [(NSPopUpButton *) sender titleOfSelectedItem];
-    NSLog(@"My NSPopupButton selected value is: %@", [(NSPopUpButton *) sender titleOfSelectedItem]);
-    [self getModuleFiles:selectedModuleName];
+    NSString *selectedModule = [(NSPopUpButton *) sender titleOfSelectedItem];
+    NSString *firstItem = [[self.templateDropDown itemAtIndex:0] title];
+    
+    if (![selectedModule isEqualToString:@"--Select Template--"]) {
+        if ([firstItem isEqualToString:@"--Select Template--"]) {
+            [self.templateDropDown removeItemAtIndex:0];
+        }
+        [self.templateFilesArray removeAllObjects];
+        [self.selectedTemplateFilesArray removeAllObjects];
+        NSString *selectedModuleName = [(NSPopUpButton *) sender titleOfSelectedItem];
+        NSLog(@"My NSPopupButton selected value is: %@", [(NSPopUpButton *) sender titleOfSelectedItem]);
+        [self getModuleFiles:selectedModuleName];
+    }
 }
 
 - (void)showLoadingPanel {

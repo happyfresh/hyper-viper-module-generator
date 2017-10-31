@@ -1,4 +1,4 @@
-package com.happyfresh.modules.$HyperModuleName;
+package com.happyfresh.widgets.$HyperModuleName;
 
 import com.happyfresh.abstracts.ViewBehavior;
 

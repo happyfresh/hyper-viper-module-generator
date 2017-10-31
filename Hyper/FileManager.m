@@ -31,6 +31,17 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
 }
 
 - (instancetype)init {
+    NSArray* theDirs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                              inDomains:NSUserDomainMask];
+    if ([theDirs count] > 0)
+    {
+        NSURL* documentDir = (NSURL*)[theDirs objectAtIndex:0];
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        NSString *bundleName = [NSString stringWithFormat:@"%@", [info objectForKey:@"CFBundleName"]];
+        self.templateDir = [[documentDir URLByAppendingPathComponent:bundleName]
+                            URLByAppendingPathComponent:@"Templates"];
+    }
+    
     return self;
 }
 
@@ -71,6 +82,7 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
 - (BOOL)createFolderAtPath:(NSString *)path overWrite:(BOOL)overwrite {
     BOOL isDir;
     NSFileManager *fileManager= [NSFileManager defaultManager];
+    NSError *error = nil;
     if (overwrite) {
         if([fileManager fileExistsAtPath:path isDirectory:&isDir]) {
             if ([fileManager removeItemAtPath:path error:NULL]) {
@@ -79,13 +91,15 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
                 }
             }
         } else {
-            if(![fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
+            if(![fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error]) {
+                NSLog(@"Error: Create directoy at path failed %@", error);
                 return NO;
             }
         }
     } else {
         if(![fileManager fileExistsAtPath:path isDirectory:&isDir]) {
-            if(![fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]) {
+            if(![fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error]) {
+                NSLog(@"Error: Create directoy at path failed %@", error);
                 return NO;
             }
         }
