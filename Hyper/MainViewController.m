@@ -18,6 +18,8 @@
 @property (nonatomic) NSURL *targetURL;
 
 @property (weak) IBOutlet NSTextField *nameTextField;
+@property (weak) IBOutlet NSPopUpButton *platformDropDown;
+@property (weak) IBOutlet NSPopUpButton *styleDropDown;
 @property (weak) IBOutlet NSPopUpButton *templateDropDown;
 @property (weak) IBOutlet NSButton *createFolderCheckBox;
 @property (weak) IBOutlet NSTextField *saveToTextField;
@@ -30,6 +32,8 @@
 @property (weak) IBOutlet NSTableView *tableView;
 @property (nonatomic) NSMutableArray *templateFilesArray;
 @property (nonatomic) NSMutableArray *selectedTemplateFilesArray;
+@property (nonatomic) NSString *selectedPlatform;
+@property (nonatomic) NSString *selectedStyle;
 
 @end
 
@@ -84,11 +88,26 @@
     [self.fileManager createTemplatesFolder];
     [self setupView];
     [self addObserver];
-    [self getModuleFiles:[self.templateDropDown titleOfSelectedItem]];
 }
 
 - (void)setupView {
+    NSArray *platformArray = [NSArray arrayWithObjects: @"--Select Platform--", @"Android", @"iOS", nil];
+    [self.styleDropDown setEnabled:NO];
+    [self.templateDropDown setEnabled:NO];
+    [self.platformDropDown addItemsWithTitles:platformArray];
+}
+
+-(void)setupStyleDropdown {
+    [self.fileManager setSelectedPlatform:_selectedPlatform];
+    NSArray *titleArray = [self.fileManager styleNames];
+    [self.styleDropDown addItemWithTitle:@"--Select Style--"];
+    [self.styleDropDown addItemsWithTitles: titleArray];
+}
+
+- (void)setupModuleDropdown {
+    [self.fileManager setSelectedStyle:_selectedStyle];
     NSArray *titleArray = [self.fileManager templateNames];
+    [self.templateDropDown addItemWithTitle:@"--Select Template--"];
     [self.templateDropDown addItemsWithTitles: titleArray];
 }
 
@@ -146,12 +165,48 @@
     [self presentViewControllerAsSheet:vc];
 }
 
-- (IBAction)templateDropdownDidChangeValue:(id)sender {
-    [self.templateFilesArray removeAllObjects];
-    [self.selectedTemplateFilesArray removeAllObjects];
-    NSString *selectedModuleName = [(NSPopUpButton *) sender titleOfSelectedItem];
-    NSLog(@"My NSPopupButton selected value is: %@", [(NSPopUpButton *) sender titleOfSelectedItem]);
-    [self getModuleFiles:selectedModuleName];
+- (IBAction)platformDropdownDidChangeValue:(NSPopUpButton *)sender {
+    _selectedPlatform = [sender titleOfSelectedItem];
+    if (![_selectedPlatform isEqualToString:@"--Select Platform--"]) {
+        NSString *firstItem = [[self.platformDropDown itemAtIndex:0] title];
+        if ([firstItem isEqualToString:@"--Select Platform--"]) {
+            [self.platformDropDown removeItemWithTitle:firstItem];
+        }
+        [self.styleDropDown setEnabled:YES];
+        [self.templateDropDown setEnabled:NO];
+        [self setupStyleDropdown];
+    }
+}
+
+- (IBAction)styleDropdownDidChangeValue:(NSPopUpButton *)sender {
+    _selectedStyle = [sender titleOfSelectedItem];
+    NSString *firstItem = [[self.styleDropDown itemAtIndex:0] title];
+
+    if (![_selectedStyle isEqualToString:@"--Select Template--"]) {
+        if ([firstItem isEqualToString:@"--Select Template--"]) {
+            [self.styleDropDown removeItemWithTitle:firstItem];
+        }
+        
+        [self.templateDropDown setEnabled:YES];
+        [self.templateDropDown removeAllItems];
+        [self setupModuleDropdown];
+    }
+}
+
+- (IBAction)templateDropdownDidChangeValue:(NSPopUpButton *)sender {
+    NSString *selectedModule = [sender titleOfSelectedItem];
+    NSString *firstItem = [[self.templateDropDown itemAtIndex:0] title];
+    
+    if (![selectedModule isEqualToString:@"--Select Template--"]) {
+        if ([firstItem isEqualToString:@"--Select Template--"]) {
+            [self.templateDropDown removeItemWithTitle:firstItem];
+        }
+        [self.templateFilesArray removeAllObjects];
+        [self.selectedTemplateFilesArray removeAllObjects];
+        NSString *selectedModuleName = [(NSPopUpButton *) sender titleOfSelectedItem];
+        NSLog(@"My NSPopupButton selected value is: %@", [(NSPopUpButton *) sender titleOfSelectedItem]);
+        [self getModuleFiles:selectedModuleName];
+    }
 }
 
 - (void)showLoadingPanel {

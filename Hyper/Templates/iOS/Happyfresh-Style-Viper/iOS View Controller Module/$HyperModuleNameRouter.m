@@ -7,7 +7,7 @@
 //
 
 #import "$HyperModuleNameRouter.h"
-#import "$HyperModuleNameViewontroller.h"
+#import "$HyperModuleNameViewController.h"
 #import "$HyperModuleNameInteractor.h"
 #import "$HyperModuleNamePresenter.h"
 

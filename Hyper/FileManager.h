@@ -19,7 +19,10 @@ extern NSString * const CreateDocumentsFolderFailed;
 - (BOOL)createFolderAtPath:(NSString *)path;
 - (BOOL)createFolderAtPath:(NSString *)path overWrite:(BOOL)overwrite;
 - (void)createTemplatesFolder;
+- (NSArray *)styleNames;
 - (NSArray *)templateNames;
 - (NSArray *)readContentOfDirectoryWithURL:(NSURL *)url ;
+- (void)setSelectedPlatform:(NSString *)selectedPlatform;
+- (void)setSelectedStyle:(NSString *)selectedStyle;
 
 @end
