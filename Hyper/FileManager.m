@@ -31,6 +31,13 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
 }
 
 - (instancetype)init {
+    if (self = [super init]) {
+        [self fileManagerInit];
+    }
+    return self;
+}
+
+-(void)fileManagerInit {
     NSArray* theDirs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
                                                               inDomains:NSUserDomainMask];
     if ([theDirs count] > 0)
@@ -41,8 +48,6 @@ NSString * const CreateDocumentsFolderFailed = @"CreateDocumentsFolderFailed";
         self.templateDir = [[documentDir URLByAppendingPathComponent:bundleName]
                             URLByAppendingPathComponent:@"Templates"];
     }
-    
-    return self;
 }
 
 - (void)setSelectedPlatform:(NSString *)selectedPlatform {

@@ -165,12 +165,12 @@
     [self presentViewControllerAsSheet:vc];
 }
 
-- (IBAction)platformDropdownDidChangeValue:(id)sender {
-    _selectedPlatform = [(NSPopUpButton *) sender titleOfSelectedItem];
+- (IBAction)platformDropdownDidChangeValue:(NSPopUpButton *)sender {
+    _selectedPlatform = [sender titleOfSelectedItem];
     if (![_selectedPlatform isEqualToString:@"--Select Platform--"]) {
         NSString *firstItem = [[self.platformDropDown itemAtIndex:0] title];
         if ([firstItem isEqualToString:@"--Select Platform--"]) {
-            [self.platformDropDown removeItemAtIndex:0];
+            [self.platformDropDown removeItemWithTitle:firstItem];
         }
         [self.styleDropDown setEnabled:YES];
         [self.templateDropDown setEnabled:NO];
@@ -178,13 +178,13 @@
     }
 }
 
-- (IBAction)styleDropdownDidChangeValue:(id)sender {
-    _selectedStyle = [(NSPopUpButton *) sender titleOfSelectedItem];
+- (IBAction)styleDropdownDidChangeValue:(NSPopUpButton *)sender {
+    _selectedStyle = [sender titleOfSelectedItem];
     NSString *firstItem = [[self.styleDropDown itemAtIndex:0] title];
 
     if (![_selectedStyle isEqualToString:@"--Select Template--"]) {
         if ([firstItem isEqualToString:@"--Select Template--"]) {
-            [self.styleDropDown removeItemAtIndex:0];
+            [self.styleDropDown removeItemWithTitle:firstItem];
         }
         
         [self.templateDropDown setEnabled:YES];
@@ -193,13 +193,13 @@
     }
 }
 
-- (IBAction)templateDropdownDidChangeValue:(id)sender {
-    NSString *selectedModule = [(NSPopUpButton *) sender titleOfSelectedItem];
+- (IBAction)templateDropdownDidChangeValue:(NSPopUpButton *)sender {
+    NSString *selectedModule = [sender titleOfSelectedItem];
     NSString *firstItem = [[self.templateDropDown itemAtIndex:0] title];
     
     if (![selectedModule isEqualToString:@"--Select Template--"]) {
         if ([firstItem isEqualToString:@"--Select Template--"]) {
-            [self.templateDropDown removeItemAtIndex:0];
+            [self.templateDropDown removeItemWithTitle:firstItem];
         }
         [self.templateFilesArray removeAllObjects];
         [self.selectedTemplateFilesArray removeAllObjects];
