@@ -17,3 +17,9 @@ Template files have these variables :
 - $HyperCreatedDate
 
 Download executable MacApp here : https://drive.google.com/drive/folders/0B2WHpUjs4HI4NG9WaWFhQVFFQjQ?usp=sharing
+
+VERSION 1.2 :
+========
+https://drive.google.com/open?id=19E5YgYQPIM5kpPIdrjAPHNtRqVhAvYnQ
+
+
