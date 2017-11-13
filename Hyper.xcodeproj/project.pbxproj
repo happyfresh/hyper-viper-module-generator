@@ -186,7 +186,7 @@
 				TargetAttributes = {
 					633824EA1F4748FE00DBBE2D = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = JY95GWKB84;
+						DevelopmentTeam = 7DZ35S9B56;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -351,7 +351,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = JY95GWKB84;
+				DEVELOPMENT_TEAM = 7DZ35S9B56;
 				INFOPLIST_FILE = Hyper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happyfresh.Hyper;
@@ -367,7 +367,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = JY95GWKB84;
+				DEVELOPMENT_TEAM = 7DZ35S9B56;
 				INFOPLIST_FILE = Hyper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.happyfresh.Hyper;
